@@ -4,7 +4,7 @@ This is a final year project for the Electronics Engineering Technology program 
 
 ![internet-thermostat image](https://raw.githubusercontent.com/francisbergin/internet-thermostat/master/image.jpg)
 
-It is based on :
+It is based on the following components:
 - ATmega32 8-bit microcontroller
 - ENC28J60 Ethernet controller
 - AD22100S Temperature sensor
