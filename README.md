@@ -1,8 +1,16 @@
 # internet-thermostat
 
+## about
+
 This is a final year project for the Electronics Engineering Technology program at Dawson College in Montreal, Qc.
 
-![internet-thermostat image](https://raw.githubusercontent.com/francisbergin/internet-thermostat/master/image.jpg)
+![internet-thermostat board](https://raw.githubusercontent.com/fbergin/internet-thermostat/master/images/board.jpg)
+
+![internet-thermostat home](https://raw.githubusercontent.com/fbergin/internet-thermostat/master/images/home.png)
+
+![internet-thermostat settings](https://raw.githubusercontent.com/fbergin/internet-thermostat/master/images/settings.png)
+
+## components
 
 It is based on the following components:
 - ATmega32 8-bit microcontroller
@@ -11,5 +19,24 @@ It is based on the following components:
 - EN12 Rotary encoder
 - LTC-4727JR 4 digit 7 segment display
 
-The TCP, IP, HTTP, Ethernet, ICMP, ARP and ENC28J60 code is based on AVRNETv1.0 by [Jirawat Kongkaen](http://avrportal.com/)
+## building and installing
 
+To build the firmware image:
+
+    $ make
+
+To erase flash on mcu:
+
+    $ make uninstall
+
+To install firmware using jtag on avrdragon with avrdude:
+
+    $ make install
+
+To delete generated files:
+
+    $ make clean
+
+## credits
+
+The TCP, IP, HTTP, Ethernet, ICMP, ARP and ENC28J60 code is based on AVRNETv1.0 by [Jirawat Kongkaen](http://avrportal.com/)
