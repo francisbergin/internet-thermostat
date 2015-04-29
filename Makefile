@@ -1,5 +1,5 @@
 #******************************************************************************
-#	Copyright (C) 2012 Francis Bergin
+#	Copyright (C) 2015 Francis Bergin
 #
 #
 #	This file is part of internet-thermostat.
