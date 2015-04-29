@@ -28,11 +28,11 @@
 #define TCP_OPTIONS_P 		0x36
 #define TCP_DATA_P			0x36
 
-//********************************************************************************************
+//*****************************************************************************
 //
 // Prototype function
 //
-//********************************************************************************************
+//*****************************************************************************
 extern WORD tcp_get_dlength ( BYTE *rxtx_buffer );
 extern BYTE tcp_get_hlength ( BYTE *rxtx_buffer );
 extern WORD tcp_puts_data ( BYTE *rxtx_buffer, BYTE *data, WORD offset );

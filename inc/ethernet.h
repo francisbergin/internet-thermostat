@@ -12,11 +12,11 @@
 #define ETH_SRC_MAC_P		6
 #define ETH_TYPE_H_P		12
 #define ETH_TYPE_L_P		13
-//********************************************************************************************
+//*****************************************************************************
 //
 // Prototype function
 //
-//********************************************************************************************
+//*****************************************************************************
 //void eth_generate_packet ( ETH_HEADER eth_header );
 extern WORD software_checksum( BYTE *rxtx_buffer, WORD len, DWORD sum);
 extern void eth_generate_header ( BYTE *rxtx_buffer, WORD_BYTES type, BYTE *dest_mac );

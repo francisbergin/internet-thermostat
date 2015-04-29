@@ -1,4 +1,4 @@
-//********************************************************************************************
+//*****************************************************************************
 //	Copyright (C) 2012 Francis Bergin
 //
 //
@@ -17,25 +17,25 @@
 //	You should have received a copy of the GNU General Public License
 //	along with Internet Thermostat.  If not, see <http://www.gnu.org/licenses/>.
 //
-//********************************************************************************************
+//*****************************************************************************
 
 #include "includes.h"
 
 
-//********************************************************************************************
+//*****************************************************************************
 //
 // Function : arp_generate_packet
 // Description : generate arp packet
 //
-//********************************************************************************************
+//*****************************************************************************
 void arp_generate_packet ( BYTE *rxtx_buffer, BYTE *dest_mac, BYTE *dest_ip )
 {
 	unsigned char i;
-	
+
 	// setup hardware type to ethernet 0x0001
 	rxtx_buffer[ ARP_HARDWARE_TYPE_H_P ] = ARP_HARDWARE_TYPE_H_V;
 	rxtx_buffer[ ARP_HARDWARE_TYPE_L_P ] = ARP_HARDWARE_TYPE_L_V;
-	
+
 	// setup protocol type to ip 0x0800
 	rxtx_buffer[ ARP_PROTOCOL_H_P ] = ARP_PROTOCOL_H_V;
 	rxtx_buffer[ ARP_PROTOCOL_L_P ] = ARP_PROTOCOL_L_V;
@@ -52,7 +52,7 @@ void arp_generate_packet ( BYTE *rxtx_buffer, BYTE *dest_mac, BYTE *dest_ip )
 		rxtx_buffer[ ARP_DST_MAC_P + i ] = dest_mac[i];
 		rxtx_buffer[ ARP_SRC_MAC_P + i ] = avr_mac.byte[i];
 	}
-	
+
 	// setup arp destination and source ip address
 	for ( i=0; i<sizeof(IP_ADDR); i++)
 	{
@@ -61,12 +61,12 @@ void arp_generate_packet ( BYTE *rxtx_buffer, BYTE *dest_mac, BYTE *dest_ip )
 	}
 }
 
-//********************************************************************************************
+//*****************************************************************************
 //
 // Function : arp_send_request
 // Description : send arp request packet (who is?) to network.
 //
-//********************************************************************************************
+//*****************************************************************************
 void arp_send_request ( BYTE *rxtx_buffer, BYTE *dest_ip )
 {
 	unsigned char i;
@@ -80,22 +80,22 @@ void arp_send_request ( BYTE *rxtx_buffer, BYTE *dest_ip )
 	// generate arp packet
 	for ( i=0; i<sizeof(MAC_ADDR); i++)
 		dest_mac.byte[i] = 0x00;
-	
+
 	// set arp opcode is request
 	rxtx_buffer[ ARP_OPCODE_H_P ] = ARP_OPCODE_REQUEST_H_V;
 	rxtx_buffer[ ARP_OPCODE_L_P ] = ARP_OPCODE_REQUEST_L_V;
 	arp_generate_packet ( rxtx_buffer, (BYTE*)&dest_mac, dest_ip );
-	
+
 	// send arp packet to network
 	enc28j60_packet_send ( rxtx_buffer, sizeof(ETH_HEADER) + sizeof(ARP_PACKET) );
 }
 
-//*******************************************************************************************
+//*****************************************************************************
 //
 // Function : arp_packet_is_arp
 // Description : check received packet, that packet is match with arp and avr ip or not?
 //
-//*******************************************************************************************
+//*****************************************************************************
 BYTE arp_packet_is_arp ( BYTE *rxtx_buffer, WORD_BYTES opcode )
 {
 	BYTE i;
@@ -115,12 +115,12 @@ BYTE arp_packet_is_arp ( BYTE *rxtx_buffer, WORD_BYTES opcode )
 	return 1;
 }
 
-//*******************************************************************************************
+//*****************************************************************************
 //
 // Function : arp_send_reply
 // Description : Send reply if recieved packet is ARP and IP address is match with avr_ip
 //
-//*******************************************************************************************
+//*****************************************************************************
 void arp_send_reply ( BYTE *rxtx_buffer, BYTE *dest_mac )
 {
 	// generate ethernet header
@@ -130,18 +130,18 @@ void arp_send_reply ( BYTE *rxtx_buffer, BYTE *dest_mac )
 	rxtx_buffer[ ARP_OPCODE_H_P ] = ARP_OPCODE_REPLY_H_V;
 	rxtx_buffer[ ARP_OPCODE_L_P ] = ARP_OPCODE_REPLY_L_V;
 	arp_generate_packet ( rxtx_buffer, dest_mac, &rxtx_buffer[ ARP_SRC_IP_P ] );
-	
+
 	// send arp packet
 	enc28j60_packet_send ( rxtx_buffer, sizeof(ETH_HEADER) + sizeof(ARP_PACKET) );
 }
 
-//*******************************************************************************************
+//*****************************************************************************
 //
 // Function : arp_who_is
 // Description : send arp request to destination ip, and save destination mac to dest_mac.
 // call this function to find the destination mac address before send other packet.
 //
-//*******************************************************************************************
+//*****************************************************************************
 BYTE arp_who_is ( BYTE *rxtx_buffer, BYTE *dest_mac, BYTE *dest_ip )
 {
 	BYTE i;
@@ -167,8 +167,7 @@ BYTE arp_who_is ( BYTE *rxtx_buffer, BYTE *dest_mac, BYTE *dest_ip )
 			}
 		}
 	}
-	
+
 	// destination ip was not found on network
 	return 0;
 }
-

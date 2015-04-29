@@ -1,4 +1,4 @@
-//********************************************************************************************
+//*****************************************************************************
 //	Copyright (C) 2012 Francis Bergin
 //
 //
@@ -17,7 +17,7 @@
 //	You should have received a copy of the GNU General Public License
 //	along with Internet Thermostat.  If not, see <http://www.gnu.org/licenses/>.
 //
-//********************************************************************************************
+//*****************************************************************************
 
 #include "includes.h"
 
@@ -45,7 +45,7 @@ BYTE adc0_pwr_src=1;
 void adc0_init ( void )
 {
 	ADCSRA = 0x80;
-	ADMUX = 0x40;	
+	ADMUX = 0x40;
 }
 
 WORD adc0_read (void)
@@ -55,7 +55,7 @@ WORD adc0_read (void)
 
 
 void adc0_data (void)
-{	
+{
 
 	// Start conversion
 	ADCSRA |= (1 << ADSC);
@@ -65,15 +65,15 @@ void adc0_data (void)
 		;
 
 	// CAUTION: READ ADCL BEFORE ADCH!!!
-	adc0_check = ((ADCL) | ((ADCH)<<8));			
-	adc0_sum += ((ADCL) | ((ADCH)<<8));	
+	adc0_check = ((ADCL) | ((ADCH)<<8));
+	adc0_sum += ((ADCL) | ((ADCH)<<8));
 
 	if (adc0_valid==0)
 	{
 		if(x==511)
 		{
 			adc0_valid=1;
-		
+
 			adc0_average = adc0_sum >> 9;
 			adc0_temp = (adc0_average*adc0_calc_slope)-adc0_calc_intercept;	//equation according to AD22100 characteristics
 			adc0_temp -= adc0_heat_compensation;					//To compensate for board heat
@@ -81,7 +81,7 @@ void adc0_data (void)
 			x=0;
 		}
 		else
-			x++;		
+			x++;
 	}
 
 	if (adc0_valid==1)
@@ -95,8 +95,8 @@ void adc0_data (void)
 			x=0;
 		}
 		else
-			x++;		
-	}			
+			x++;
+	}
 }
 
 WORD adc_read_temp1 ( void )
@@ -108,7 +108,7 @@ WORD adc_read_temp1 ( void )
 WORD adc_read_temp2 ( void )
 {
 	WORD temp0, temp1;
-	
+
 	temp0 = adc0_temp/10;
 	temp1 = temp0 * 10;
 	temp_value2 = adc0_temp - temp1;
@@ -119,7 +119,7 @@ WORD adc_read_temp2 ( void )
 WORD adc_read_temp3 ( void )
 {
 	WORD temp0, temp1;
-	
+
 	temp0 = adc0_temp;
 	temp1 = temp0 * 10;
 	temp_value3 = (adc0_temp*10) - temp1;
@@ -137,7 +137,7 @@ WORD adc_read_compensation1 ( void )
 WORD adc_read_compensation2 ( void )
 {
 	WORD temp0, temp1;
-	
+
 	temp0 = adc0_heat_compensation/10;
 	temp1 = temp0 * 10;
 	temp_value2 = adc0_heat_compensation - temp1;
@@ -148,7 +148,7 @@ WORD adc_read_compensation2 ( void )
 WORD adc_read_compensation3 ( void )
 {
 	WORD temp0, temp1;
-	
+
 	temp0 = adc0_heat_compensation;
 	temp1 = temp0 * 10;
 	temp_value3 = (adc0_heat_compensation*10) - temp1;

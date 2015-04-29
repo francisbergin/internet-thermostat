@@ -1,4 +1,4 @@
-#********************************************************************************************
+#******************************************************************************
 #	Copyright (C) 2012 Francis Bergin
 #
 #
@@ -17,7 +17,7 @@
 #	You should have received a copy of the GNU General Public License
 #	along with internet-thermostat.  If not, see <http://www.gnu.org/licenses/>.
 #
-#********************************************************************************************
+#******************************************************************************
 
 PRG = internet-thermostat
 
@@ -60,22 +60,22 @@ all : ./bin/$(PRG).elf ./bin/$(PRG).hex ./bin/$(PRG).eep printsize
 # compiler
 ./bin/obj/%.o : ./src/%.c
 	@mkdir -p $(@D)
-	$(CC) -c $(CC_ARGS) -o $@ $< 
+	$(CC) -c $(CC_ARGS) -o $@ $<
 
 # linker and other
 ./bin/$(PRG).elf : $(OBJS)
 	$(CC) -o ./bin/$(PRG).elf $(OBJS) -Wl,-Map=./bin/$(PRG).map -Wl,-lm -mmcu=$(MMCU)
-	
+
 ./bin/$(PRG).hex : ./bin/$(PRG).elf
 	avr-objcopy -O ihex -R .eeprom -R .fuse -R .lock -R .signature ./bin/$(PRG).elf ./bin/$(PRG).hex
-	
+
 ./bin/$(PRG).eep : ./bin/$(PRG).elf
 	avr-objcopy -j .eeprom  --set-section-flags=.eeprom=alloc,load --change-section-lma .eeprom=0 --no-change-warnings -O ihex ./bin/$(PRG).elf ./bin/$(PRG).eep
 
 printsize :
 	avr-size -C --mcu=$(MMCU) ./bin/$(PRG).elf
 
-# program the device  
+# program the device
 install : $(PRG).hex $(PRG).eep
 	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_FLASH) $(AVRDUDE_WRITE_EEPROM)
 

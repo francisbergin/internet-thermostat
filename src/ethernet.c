@@ -1,4 +1,4 @@
-//********************************************************************************************
+//*****************************************************************************
 //	Copyright (C) 2012 Francis Bergin
 //
 //
@@ -17,17 +17,17 @@
 //	You should have received a copy of the GNU General Public License
 //	along with Internet Thermostat.  If not, see <http://www.gnu.org/licenses/>.
 //
-//********************************************************************************************
+//*****************************************************************************
 
 #include "includes.h"
 
-//********************************************************************************************
+//*****************************************************************************
 //
 // Function : eth_generate_header
 // Description : generarete ethernet header, contain destination and source MAC address,
 // ethernet type.
 //
-//********************************************************************************************
+//*****************************************************************************
 void eth_generate_header ( BYTE *rxtx_buffer, WORD_BYTES type, BYTE *dest_mac )
 {
 	BYTE i;
@@ -42,10 +42,10 @@ void eth_generate_header ( BYTE *rxtx_buffer, WORD_BYTES type, BYTE *dest_mac )
 }
 
 
-//********************************************************************************************
+//*****************************************************************************
 //
 // Function : software_checksum
-// Description : 
+// Description :
 // The Ip checksum is calculated over the ip header only starting
 // with the header length field and a total length of 20 bytes
 // unitl ip.dst
@@ -53,7 +53,7 @@ void eth_generate_header ( BYTE *rxtx_buffer, WORD_BYTES type, BYTE *dest_mac )
 // the calculation.
 // len for ip is 20.
 //
-// For UDP/TCP we do not make up the required pseudo header. Instead we 
+// For UDP/TCP we do not make up the required pseudo header. Instead we
 // use the ip.src and ip.dst fields of the real packet:
 // The udp checksum calculation starts with the ip.src field
 // Ip.src=4bytes,Ip.dst=4 bytes,Udp header=8bytes + data length=16+len
@@ -69,7 +69,7 @@ void eth_generate_header ( BYTE *rxtx_buffer, WORD_BYTES type, BYTE *dest_mac )
 // http://www.msc.uky.edu/ken/cs471/notes/chap3.htm
 // The RFC has also a C code example: http://www.faqs.org/rfcs/rfc1071.html
 //
-//********************************************************************************************
+//*****************************************************************************
 WORD software_checksum(BYTE *rxtx_buffer, WORD len, DWORD sum)
 {
 	// build the sum of 16bit words

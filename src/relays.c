@@ -1,4 +1,4 @@
-//********************************************************************************************
+//*****************************************************************************
 //	Copyright (C) 2012 Francis Bergin
 //
 //
@@ -17,7 +17,7 @@
 //	You should have received a copy of the GNU General Public License
 //	along with Internet Thermostat.  If not, see <http://www.gnu.org/licenses/>.
 //
-//********************************************************************************************
+//*****************************************************************************
 
 #include "includes.h"
 
@@ -43,41 +43,41 @@ void control_relays (void)
 	{
 		//PORTC |= 0xc3;
 		return;
-	}	
-	
+	}
+
 	if (hvac_flag_sys==0)
 	{
 		PORTC &= ~(1 << 0);
 		PORTC &= ~(1 << 1);
-		PORTC &= ~(1 << 6);	
-		PORTC &= ~(1 << 7);	
-		relays_cnt0=0;		
+		PORTC &= ~(1 << 6);
+		PORTC &= ~(1 << 7);
+		relays_cnt0=0;
 		return;
 	}
-	
+
 	if (rot_enc_change==1)
-		return;	
-	
-		
-	temp_difference=adc0_temp-desired_temp; 
-			
+		return;
+
+
+	temp_difference=adc0_temp-desired_temp;
+
 	if (temp_difference<=-1)
 	{
 		relays_cnt0++;
 		if (relays_cnt0==cnt0end)
-		{	
+		{
 			relays_cnt0=0;
 			hvac_heat=1;
 			hvac_ac=0;
 			hvac_vent=0;
 		}
-	}			
-		
+	}
+
 	else if (temp_difference>=5)
 	{
 		relays_cnt0++;
 		if (relays_cnt0==cnt0end)
-		{	
+		{
 			relays_cnt0=0;
 			hvac_heat=0;
 			hvac_ac=1;
@@ -89,9 +89,9 @@ void control_relays (void)
 		hvac_heat=0;
 		hvac_ac=0;
 		hvac_vent=0;
-	}		
-		
-			
+	}
+
+
 	if (((hvac_heat_flag==1)&&(hvac_heat==1))||((hvac_heat_flag==1)&&(hvac_flag_auto==0)))
 	{
 		if (hvac_flag_heat_src==1)
@@ -100,40 +100,40 @@ void control_relays (void)
 			PORTC |= 1 << 1;
 			PORTC &= ~(1 << 6);
 			PORTC |= 1 << 7;
-			return;			
-		}		
-		
+			return;
+		}
+
 		else if (hvac_flag_heat_src==2)
 		{
 			PORTC |= 1 << 0;
-			PORTC &= ~(1 << 1);		
+			PORTC &= ~(1 << 1);
 			PORTC &= ~(1 << 6);
 			PORTC &= ~(1 << 7);
-			return;			
+			return;
 		}
-	}	
-				
+	}
+
 	if (((hvac_ac_flag==1)&&(hvac_ac==1))||((hvac_ac_flag==1)&&(hvac_flag_auto==0)))
 	{
 		PORTC &= ~(1 << 0);
 		PORTC &= ~(1 << 1);
 		PORTC |= 1 << 6;
 		PORTC |= 1 << 7;
-		return;		
-	}	
-	
+		return;
+	}
+
 	if (((hvac_vent_flag==1)&&(hvac_vent==1))||((hvac_vent_flag==1)&&(hvac_flag_auto==0)))
 	{
 		PORTC &= ~(1 << 0);
 		PORTC &= ~(1 << 1);
 		PORTC &= ~(1 << 6);
 		PORTC |= 1 << 7;
-		return;		
+		return;
 	}
-	
+
 	PORTC &= ~(1 << 0);
 	PORTC &= ~(1 << 1);
 	PORTC &= ~(1 << 6);
-	PORTC &= ~(1 << 7);	
-							
+	PORTC &= ~(1 << 7);
+
 }

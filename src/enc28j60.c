@@ -1,4 +1,4 @@
-//********************************************************************************************
+//*****************************************************************************
 //	Copyright (C) 2012 Francis Bergin
 //
 //
@@ -17,7 +17,7 @@
 //	You should have received a copy of the GNU General Public License
 //	along with Internet Thermostat.  If not, see <http://www.gnu.org/licenses/>.
 //
-//********************************************************************************************
+//*****************************************************************************
 
 #include "includes.h"
 
@@ -77,7 +77,7 @@ BYTE enc28j60Read(BYTE address)
 {
 	// select bank to read
 	enc28j60SetBank(address);
-	
+
 	// do the read
 	return enc28j60ReadOp(ENC28J60_READ_CTRL_REG, address);
 }
@@ -96,18 +96,18 @@ void enc28j60Write(BYTE address, BYTE data)
 WORD enc28j60_read_phyreg(BYTE address)
 {
 	WORD data;
-	
+
 	// set the PHY register address
 	enc28j60Write(MIREGADR, address);
 	enc28j60Write(MICMD, MICMD_MIIRD);
-	
+
 	// Loop to wait until the PHY register has been read through the MII
 	// This requires 10.24us
 	while( (enc28j60Read(MISTAT) & MISTAT_BUSY) );
-	
+
 	// Stop reading
 	enc28j60Write(MICMD, MICMD_MIIRD);
-	
+
 	// Obtain results and return
 	data = enc28j60Read ( MIRDL );
 	data |= enc28j60Read ( MIRDH );
@@ -137,7 +137,7 @@ void enc28j60_init( BYTE *avr_mac)
 	//DDRB |= _BV( DDB4 );
 	//CSPASSIVE;
 
-	// enable PB0, reset as output 
+	// enable PB0, reset as output
 	ENC28J60_DDR |= _BV(ENC28J60_RESET_PIN_DDR);
 
 	// enable PD2/INT0, as input
@@ -152,7 +152,7 @@ void enc28j60_init( BYTE *avr_mac)
 	ENC28J60_PORT |= _BV(ENC28J60_RESET_PIN);
 	_delay_ms(200);
 
-    //	
+    //
 	DDRB  |= _BV( DDB4 ) | _BV( DDB5 ) | _BV( DDB7 ); // mosi, sck, ss output
 	//DDRB &= ~_BV( DDB6 ); // MISO is input
 
@@ -195,34 +195,34 @@ void enc28j60_init( BYTE *avr_mac)
 	// do bank 2 stuff
 	// enable MAC receive
 	enc28j60Write(MACON1, MACON1_MARXEN|MACON1_TXPAUS|MACON1_RXPAUS);
-	
+
 	// bring MAC out of reset
 	//enc28j60Write(MACON2, 0x00);
 
 	// enable automatic padding to 60bytes and CRC operations
 	enc28j60Write(MACON3, MACON3_PADCFG0|MACON3_TXCRCEN|MACON3_FRMLNEN);
 
-	// Allow infinite deferals if the medium is continuously busy 
-    // (do not time out a transmission if the half duplex medium is 
+	// Allow infinite deferals if the medium is continuously busy
+    // (do not time out a transmission if the half duplex medium is
     // completely saturated with other people's data)
     enc28j60Write(MACON4, MACON4_DEFER);
 
 	// Late collisions occur beyond 63+8 bytes (8 bytes for preamble/start of frame delimiter)
-	// 55 is all that is needed for IEEE 802.3, but ENC28J60 B5 errata for improper link pulse 
+	// 55 is all that is needed for IEEE 802.3, but ENC28J60 B5 errata for improper link pulse
 	// collisions will occur less often with a larger number.
     enc28j60Write(MACLCON2, 63);
-	
-	// Set non-back-to-back inter-packet gap to 9.6us.  The back-to-back 
-	// inter-packet gap (MABBIPG) is set by MACSetDuplex() which is called 
+
+	// Set non-back-to-back inter-packet gap to 9.6us.  The back-to-back
+	// inter-packet gap (MABBIPG) is set by MACSetDuplex() which is called
 	// later.
 	enc28j60Write(MAIPGL, 0x12);
 	enc28j60Write(MAIPGH, 0x0C);
-	
+
 	// Set the maximum packet size which the controller will accept
     // Do not send packets longer than MAX_FRAMELEN:
-	enc28j60Write(MAMXFLL, MAX_FRAMELEN&0xFF);	
+	enc28j60Write(MAMXFLL, MAX_FRAMELEN&0xFF);
 	enc28j60Write(MAMXFLH, MAX_FRAMELEN>>8);
-	
+
 	// do bank 3 stuff
     // write MAC address
 	// NOTE: MAC address in ENC28J60 is byte-backward
@@ -233,10 +233,10 @@ void enc28j60_init( BYTE *avr_mac)
 	enc28j60Write(MAADR2, avr_mac[3]);
 	enc28j60Write(MAADR1, avr_mac[4]);
 	enc28j60Write(MAADR0, avr_mac[5]);
-	
+
 	// no loopback of transmitted frames
 	enc28j60PhyWrite(PHCON2, (WORD_BYTES){PHCON2_HDLDIS});
-	
+
 	// Magjack leds configuration, see enc28j60 datasheet, page 11
 	// 0x476 is PHLCON LEDA=links status, LEDB=receive/transmit
 	// enc28j60PhyWrite(PHLCON,0b0000 0100 0111 00 10);
@@ -260,7 +260,7 @@ void enc28j60_init( BYTE *avr_mac)
 
 	// set inter-frame gap (back-to-back)
 	enc28j60Write(MABBIPG, 0x12);
-	
+
 	// switch to bank 0
 	enc28j60SetBank(ECON1);
 
@@ -274,24 +274,24 @@ void enc28j60_init( BYTE *avr_mac)
 }
 
 
-//*******************************************************************************************
+//*****************************************************************************
 //
 // Function : enc28j60getrev
 // Description : read the revision of the chip.
 //
-//*******************************************************************************************
+//*****************************************************************************
 BYTE enc28j60getrev(void)
 {
 	return(enc28j60Read(EREVID));
 }
 
 
-//*******************************************************************************************
+//*****************************************************************************
 //
 // Function : enc28j60_packet_send
 // Description : Send packet to network.
 //
-//*******************************************************************************************
+//*****************************************************************************
 void enc28j60_packet_send ( BYTE *buffer, WORD length )
 {
 	//Set the write pointer to start of transmit buffer area
@@ -317,7 +317,7 @@ void enc28j60_packet_send ( BYTE *buffer, WORD length )
 		waitspi();
 	}
 	CSPASSIVE;
-	
+
 	// send the contents of the transmit buffer onto the network
 	enc28j60WriteOp(ENC28J60_BIT_FIELD_SET, ECON1, ECON1_TXRTS);
 
@@ -329,12 +329,12 @@ void enc28j60_packet_send ( BYTE *buffer, WORD length )
 }
 
 
-//*******************************************************************************************
+//*****************************************************************************
 //
 // Function : enc28j60_mac_is_linked
 // Description : return MAC link status.
 //
-//*******************************************************************************************
+//*****************************************************************************
 /*
 BYTE enc28j60_mac_is_linked(void)
 {
@@ -346,16 +346,16 @@ BYTE enc28j60_mac_is_linked(void)
 */
 
 
-//*******************************************************************************************
+//*****************************************************************************
 //
 // Function : enc28j60_packet_receive
 // Description : check received packet and return length of data
 //
-//*******************************************************************************************
+//*****************************************************************************
 WORD enc28j60_packet_receive ( BYTE *rxtx_buffer, WORD max_length )
 {
 	WORD_BYTES rx_status, data_length;
-	
+
 	// check if a packet has been received and buffered
 	// if( !(enc28j60Read(EIR) & EIR_PKTIF) ){
 	// The above does not work. See Rev. B4 Silicon Errata point 6.
@@ -376,16 +376,16 @@ WORD enc28j60_packet_receive ( BYTE *rxtx_buffer, WORD max_length )
 	data_length.bytes[0] = enc28j60ReadOp(ENC28J60_READ_BUF_MEM, 0);
 	data_length.bytes[1] = enc28j60ReadOp(ENC28J60_READ_BUF_MEM, 0);
 	data_length.word -=4; //remove the CRC count
-	
+
 	// read the receive status (see datasheet page 43)
 	rx_status.bytes[0] = enc28j60ReadOp(ENC28J60_READ_BUF_MEM, 0);
 	rx_status.bytes[1] = enc28j60ReadOp(ENC28J60_READ_BUF_MEM, 0);
-	
+
 	if ( data_length.word > (max_length-1) )
 	{
 		data_length.word = max_length-1;
 	}
-	
+
 	// check CRC and symbol errors (see datasheet page 44, table 7-3):
 	// The ERXFCON.CRCEN is set by default. Normally we should not
 	// need to check this.
@@ -411,7 +411,7 @@ WORD enc28j60_packet_receive ( BYTE *rxtx_buffer, WORD max_length )
 		}
 		CSPASSIVE;
 	}
-	
+
 	// Move the RX read pointer to the start of the next received packet
 	// This frees the memory we just read out
 	enc28j60Write(ERXRDPTL, next_packet_ptr.bytes[0]);
@@ -422,4 +422,3 @@ WORD enc28j60_packet_receive ( BYTE *rxtx_buffer, WORD max_length )
 
 	return( data_length.word );
 }
-

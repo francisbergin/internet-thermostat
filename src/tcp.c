@@ -1,4 +1,4 @@
-//********************************************************************************************
+//*****************************************************************************
 //	Copyright (C) 2012 Francis Bergin
 //
 //
@@ -17,7 +17,7 @@
 //	You should have received a copy of the GNU General Public License
 //	along with Internet Thermostat.  If not, see <http://www.gnu.org/licenses/>.
 //
-//********************************************************************************************
+//*****************************************************************************
 
 #include "includes.h"
 
@@ -51,50 +51,50 @@ BYTE next_seq_add=0;
 BYTE prev_seq_number[4];
 
 
-//*****************************************************************************************
+//*****************************************************************************
 //
 // Function : tcp_get_dlength
 // Description : claculate tcp received data length
 //
-//*****************************************************************************************
+//*****************************************************************************
 WORD tcp_get_dlength ( BYTE *rxtx_buffer )
 {
 	int dlength, hlength;
 
-	dlength = ( rxtx_buffer[ IP_TOTLEN_H_P ] <<8 ) | ( rxtx_buffer[ IP_TOTLEN_L_P ] );	
+	dlength = ( rxtx_buffer[ IP_TOTLEN_H_P ] <<8 ) | ( rxtx_buffer[ IP_TOTLEN_L_P ] );
 	dlength -= sizeof(IP_HEADER);
 	hlength = (rxtx_buffer[ TCP_HEADER_LEN_P ]>>4) * 4; // generate len in bytes;
 	dlength -= hlength;
-	
+
 	if ( dlength <= 0 )
 		dlength=0;
-	
+
 	return ((WORD)dlength);
 }
 
 
-//*****************************************************************************************
+//*****************************************************************************
 //
 // Function : tcp_get_hlength
 // Description : claculate tcp received header length
 //
-//*****************************************************************************************
+//*****************************************************************************
 BYTE tcp_get_hlength ( BYTE *rxtx_buffer )
 {
 	return ((rxtx_buffer[ TCP_HEADER_LEN_P ]>>4) * 4); // generate len in bytes;
 }
 
 
-//********************************************************************************************
+//*****************************************************************************
 //
 // Function : tcp_puts_data_p
 // Description : puts data from program memory to tx buffer
 //
-//********************************************************************************************
+//*****************************************************************************
 WORD tcp_puts_data_p ( BYTE *rxtx_buffer, PGM_P data, WORD offset )
 {
 	BYTE ch;
-	
+
 	while( (ch = pgm_read_byte(data++)) )
 	{
 		rxtx_buffer[ TCP_DATA_P + offset ] = ch;
@@ -105,12 +105,12 @@ WORD tcp_puts_data_p ( BYTE *rxtx_buffer, PGM_P data, WORD offset )
 }
 
 
-//********************************************************************************************
+//*****************************************************************************
 //
 // Function : tcp_puts_data
 // Description : puts data from RAM to tx buffer
 //
-//********************************************************************************************
+//*****************************************************************************
 WORD tcp_puts_data ( BYTE *rxtx_buffer, BYTE *data, WORD offset )
 {
 	while( *data )
@@ -123,12 +123,12 @@ WORD tcp_puts_data ( BYTE *rxtx_buffer, BYTE *data, WORD offset )
 }
 
 
-//********************************************************************************************
+//*****************************************************************************
 //
 // Function : tcp_send_packet
 // Description : send tcp packet to network.
 //
-//********************************************************************************************
+//*****************************************************************************
 void tcp_send_packet (
 	BYTE *rxtx_buffer,
 	WORD_BYTES dest_port,
@@ -144,9 +144,9 @@ void tcp_send_packet (
 {
 	BYTE i, tseq;
 	WORD_BYTES ck;
-	
+
 	// generate ethernet header
-	eth_generate_header ( rxtx_buffer, (WORD_BYTES){ETH_TYPE_IP_V}, dest_mac );		
+	eth_generate_header ( rxtx_buffer, (WORD_BYTES){ETH_TYPE_IP_V}, dest_mac );
 
 	// sequence numbers:
 	// add the rel ack num to SEQACK
@@ -165,19 +165,19 @@ void tcp_send_packet (
 			next_ack_num >>= 8;
 		}
 	}
-	
+
 	if ( next_seq_num )
 	{
 		if (packet==0)
-		{	
+		{
 			prev_dlength0=dlength;
 		}
-		
+
 		else if (packet==1)
 		{
 			prev_dlength=prev_dlength0;
-		}				
-			
+		}
+
 		else if (packet==2)
 		{
 			prev_dlength2=dlength;
@@ -188,10 +188,10 @@ void tcp_send_packet (
 		{
 			prev_dlength=prev_dlength2;
 		}
-		
-		
+
+
 		if ((packet==1)||(packet==2)||(packet==3))
-		{	
+		{
 			prev_cnt++;
 			y=7;
 			for (cntx=0; cntx<=3; cntx++)
@@ -201,11 +201,11 @@ void tcp_send_packet (
 					prev_seq_temp = rxtx_buffer [TCP_SEQ_P + cntx ];
 					prev_seq_mod = prev_seq_temp % 16;
 					prev_seq_value [y-1] = prev_seq_mod;
-				
+
 					prev_seq_temp = prev_seq_temp / 16;
 					prev_seq_mod = prev_seq_temp % 16;
-					prev_seq_value [y] = prev_seq_mod; 
-				
+					prev_seq_value [y] = prev_seq_mod;
+
 					y-=2;
 				//}
 				//else
@@ -213,50 +213,50 @@ void tcp_send_packet (
 				//	y-=2;
 				//}
 			}
-			
+
 			powx = 16;
 			prev_seq_total = 0;
 			for (cnty=0; cnty<=7; cnty++)
 			{
 				if(cnty==0)
 					prev_seq_total += prev_seq_value [cnty];
-				
+
 				else
-				{	
+				{
 					prev_seq_total += prev_seq_value [cnty] * powx;
 					powx *= 16;
-				}				
-			}			
-			
+				}
+			}
+
 			next_seq_number = prev_dlength + prev_seq_total;
-			
-		
+
+
 
 
 			//prev_cnt=0;
-			
+
 			y=7;
 			next_seq_temp = next_seq_number;
-						
+
 			for (cntx=4; cntx>0; cntx--)
 			{
 				next_seq_add=0;
-				
-				next_seq_mod = next_seq_temp % 16;				
-				next_seq_add = next_seq_mod; 
-				next_seq_temp = next_seq_temp / 16;	
-								
-				next_seq_mod = next_seq_temp % 16;				
-				next_seq_add += (next_seq_mod*16);
-				next_seq_temp = next_seq_temp / 16; 
 
-				rxtx_buffer [TCP_SEQ_P + cntx -1 ] = next_seq_add;				
+				next_seq_mod = next_seq_temp % 16;
+				next_seq_add = next_seq_mod;
+				next_seq_temp = next_seq_temp / 16;
+
+				next_seq_mod = next_seq_temp % 16;
+				next_seq_add += (next_seq_mod*16);
+				next_seq_temp = next_seq_temp / 16;
+
+				rxtx_buffer [TCP_SEQ_P + cntx -1 ] = next_seq_add;
 			}
 
-			//prev_cnt=0;		
+			//prev_cnt=0;
 		}
-	}	
-	
+	}
+
 	// initial tcp sequence number
 	// setup maximum segment size
 	// require to setup first packet is receive or transmit only
@@ -286,7 +286,7 @@ void tcp_send_packet (
 
 	// generate ip header and checksum
 	ip_generate_header ( rxtx_buffer, (WORD_BYTES){(sizeof(IP_HEADER) + sizeof(TCP_HEADER) + dlength)}, IP_PROTO_TCP_V, dest_ip );
-	
+
 	// clear sequence ack number before send tcp SYN packet
 	if ( clear_seqack )
 	{
@@ -295,10 +295,10 @@ void tcp_send_packet (
 		rxtx_buffer[ TCP_SEQACK_P + 2 ] = 0;
 		rxtx_buffer[ TCP_SEQACK_P + 3 ] = 0;
 	}
-		
+
 	// setup tcp flags
 	rxtx_buffer [ TCP_FLAGS_P ] = flags;
-	
+
 	// setup destination port
 	rxtx_buffer [ TCP_DST_PORT_H_P ] = dest_port.byte.high;
 	rxtx_buffer [ TCP_DST_PORT_L_P ] = dest_port.byte.low;
@@ -310,7 +310,7 @@ void tcp_send_packet (
 	// setup maximum windows size
 	rxtx_buffer [ TCP_WINDOWSIZE_H_P ] = HIGH((MAX_RX_BUFFER-sizeof(IP_HEADER)-sizeof(ETH_HEADER)));
 	rxtx_buffer [ TCP_WINDOWSIZE_L_P ] = LOW((MAX_RX_BUFFER-sizeof(IP_HEADER)-sizeof(ETH_HEADER)));
-	
+
 	// setup urgend pointer (not used -> 0)
 	rxtx_buffer[ TCP_URGENT_PTR_H_P ] = 0;
 	rxtx_buffer[ TCP_URGENT_PTR_L_P ] = 0;
@@ -318,10 +318,10 @@ void tcp_send_packet (
 	// clear old checksum and calculate new checksum
 	rxtx_buffer[ TCP_CHECKSUM_H_P ] = 0;
 	rxtx_buffer[ TCP_CHECKSUM_L_P ] = 0;
-	// This is computed as the 16-bit one's complement of the one's complement 
-	// sum of a pseudo header of information from the 
-	// IP header, the TCP header, and the data, padded 
-	// as needed with zero bytes at the end to make a multiple of two bytes. 
+	// This is computed as the 16-bit one's complement of the one's complement
+	// sum of a pseudo header of information from the
+	// IP header, the TCP header, and the data, padded
+	// as needed with zero bytes at the end to make a multiple of two bytes.
 	// The pseudo header contains the following fields:
 	//
 	// +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+

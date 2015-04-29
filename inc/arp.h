@@ -28,11 +28,11 @@
 #define ARP_DST_MAC_P			0x20
 #define ARP_DST_IP_P			0x26
 
-//********************************************************************************************
+//*****************************************************************************
 //
 // Prototype function
 //
-//********************************************************************************************
+//*****************************************************************************
 extern void arp_generate_packet ( BYTE *rxtx_buffer, BYTE *dest_mac, BYTE *dest_ip );
 extern void arp_send_request ( BYTE *rxtx_buffer, BYTE *dest_ip );
 extern void arp_send_reply ( BYTE *rxtx_buffer, BYTE *dest_mac );
