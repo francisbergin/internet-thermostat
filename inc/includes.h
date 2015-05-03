@@ -25,11 +25,6 @@
 #include "rotaryencoder.h"
 #include "relays.h"
 
-//#include "lcd.h"
-//#include "udp.h"
-//#include "menu.h"
-
-
 
 // define I/O interface
 
