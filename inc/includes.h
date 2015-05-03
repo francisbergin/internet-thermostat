@@ -28,17 +28,17 @@
 #include "relays.h"
 
 // define I/O interface
-#define LED_PIN1_DDR			DDC6
-#define LED_PIN1				PC6
-#define LED_PIN2_DDR			DDC7
-#define LED_PIN2				PC7
-#define LED_PORT				PORTC
-#define LED_DDR					DDRC
+#define LED_PIN1_DDR DDC6
+#define LED_PIN1 PC6
+#define LED_PIN2_DDR DDC7
+#define LED_PIN2 PC7
+#define LED_PORT PORTC
+#define LED_DDR DDRC
 
-#define LOW(uint) (uint&0xFF)
-#define HIGH(uint) ((uint>>8)&0xFF)
+#define LOW(uint) (uint & 0xFF)
+#define HIGH(uint) ((uint >> 8) & 0xFF)
 
-#define MAX_RXTX_BUFFER		1518
+#define MAX_RXTX_BUFFER 1518
 
 // global variables
 extern MAC_ADDR avr_mac;

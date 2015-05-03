@@ -18,6 +18,6 @@ extern BYTE hvac_ac;
 extern BYTE hvac_vent;
 
 // function prototypes
-extern void control_relays (void);
+extern void control_relays(void);
 
 #endif // RELAYS_H_

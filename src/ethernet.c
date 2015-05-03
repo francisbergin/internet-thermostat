@@ -2,27 +2,24 @@
 
 #include "includes.h"
 
-
 //*****************************************************************************
 //
 // Function : eth_generate_header
-// Description : generarete ethernet header, contain destination and source MAC address,
+// Description : generarete ethernet header, contain destination and source MAC
+// address,
 // ethernet type.
 //
 //*****************************************************************************
-void eth_generate_header ( BYTE *rxtx_buffer, WORD_BYTES type, BYTE *dest_mac )
-{
-	BYTE i;
-	//copy the destination mac from the source and fill my mac into src
-	for ( i=0; i<sizeof(MAC_ADDR); i++)
-	{
-		rxtx_buffer[ ETH_DST_MAC_P + i ] = dest_mac[i];
-		rxtx_buffer[ ETH_SRC_MAC_P + i ] = avr_mac.byte[i];
-	}
-	rxtx_buffer[ ETH_TYPE_H_P ] = type.byte.high;//HIGH(type);
-	rxtx_buffer[ ETH_TYPE_L_P ] = type.byte.low;//LOW(type);
+void eth_generate_header(BYTE *rxtx_buffer, WORD_BYTES type, BYTE *dest_mac) {
+    BYTE i;
+    // copy the destination mac from the source and fill my mac into src
+    for (i = 0; i < sizeof(MAC_ADDR); i++) {
+        rxtx_buffer[ETH_DST_MAC_P + i] = dest_mac[i];
+        rxtx_buffer[ETH_SRC_MAC_P + i] = avr_mac.byte[i];
+    }
+    rxtx_buffer[ETH_TYPE_H_P] = type.byte.high; // HIGH(type);
+    rxtx_buffer[ETH_TYPE_L_P] = type.byte.low;  // LOW(type);
 }
-
 
 //*****************************************************************************
 //
@@ -52,26 +49,22 @@ void eth_generate_header ( BYTE *rxtx_buffer, WORD_BYTES type, BYTE *dest_mac )
 // The RFC has also a C code example: http://www.faqs.org/rfcs/rfc1071.html
 //
 //*****************************************************************************
-WORD software_checksum(BYTE *rxtx_buffer, WORD len, DWORD sum)
-{
-	// build the sum of 16bit words
-	while(len>1)
-	{
-		sum += 0xFFFF & (*rxtx_buffer<<8|*(rxtx_buffer+1));
-		rxtx_buffer+=2;
-		len-=2;
-	}
-	// if there is a byte left then add it (padded with zero)
-	if (len)
-	{
-		sum += (0xFF & *rxtx_buffer)<<8;
-	}
-	// now calculate the sum over the bytes in the sum
-	// until the result is only 16bit long
-	while (sum>>16)
-	{
-		sum = (sum & 0xFFFF)+(sum >> 16);
-	}
-	// build 1's complement:
-	return( (WORD) sum ^ 0xFFFF);
+WORD software_checksum(BYTE *rxtx_buffer, WORD len, DWORD sum) {
+    // build the sum of 16bit words
+    while (len > 1) {
+        sum += 0xFFFF & (*rxtx_buffer << 8 | *(rxtx_buffer + 1));
+        rxtx_buffer += 2;
+        len -= 2;
+    }
+    // if there is a byte left then add it (padded with zero)
+    if (len) {
+        sum += (0xFF & *rxtx_buffer) << 8;
+    }
+    // now calculate the sum over the bytes in the sum
+    // until the result is only 16bit long
+    while (sum >> 16) {
+        sum = (sum & 0xFFFF) + (sum >> 16);
+    }
+    // build 1's complement:
+    return ((WORD)sum ^ 0xFFFF);
 }
