@@ -103,8 +103,8 @@ int main (void)
 
 	// initialize interupt for rotary encoder
 	DDRB &= ~(1 << 3);
-	GICR |= (1<<INT2);
-	MCUCSR |= (0<<ISC2);
+	GICR |= (1 << INT2);
+	MCUCSR |= (0 << ISC2);
 	sei();
 
 	// loop forever

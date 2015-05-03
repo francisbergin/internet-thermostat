@@ -1,3 +1,5 @@
+// Copyright (C) 2015 Francis Bergin
+
 #ifndef STRUCT_H_
 #define STRUCT_H_
 

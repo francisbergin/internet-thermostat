@@ -1,3 +1,5 @@
+// Copyright (C) 2015 Francis Bergin
+
 #ifndef IP_H_
 #define IP_H_
 
@@ -25,12 +27,7 @@
 #define IP_SRC_IP_P			0x1A
 #define IP_DST_IP_P			0x1E
 
-
-//*****************************************************************************
-//
-// Prototype function
-//
-//*****************************************************************************
+// function prototypes
 //void ip_fill_ip_address( unsigned char *buf, unsigned char *avr_ip, unsigned char *dest_ip );
 //void ip_fill_hdr_checksum( unsigned char *buf );
 

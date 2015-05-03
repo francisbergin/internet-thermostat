@@ -1,3 +1,5 @@
+// Copyright (C) 2015 Francis Bergin
+
 #ifndef INCLUDES_H_
 #define INCLUDES_H_
 
@@ -25,9 +27,7 @@
 #include "rotaryencoder.h"
 #include "relays.h"
 
-
 // define I/O interface
-
 #define LED_PIN1_DDR			DDC6
 #define LED_PIN1				PC6
 #define LED_PIN2_DDR			DDC7
@@ -44,20 +44,11 @@
 extern MAC_ADDR avr_mac;
 extern IP_ADDR avr_ip;
 
-//extern MAC_ADDR client_mac;
-//extern IP_ADDR client_ip;
-
 extern MAC_ADDR server_mac;
 extern IP_ADDR server_ip;
 
 extern BYTE generic_buf[];
 extern BYTE ee_avr_ip[];
 extern BYTE ee_server_ip[];
-//*****************************************************************************
-//
-// Prototype function from main.c
-//
-//*****************************************************************************
-//extern void initial_system( void );
 
 #endif // INCLUDES_H_

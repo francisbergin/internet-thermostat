@@ -2,8 +2,8 @@
 
 #include "includes.h"
 
-unsigned char icmp_id=1;
-unsigned char icmp_seq=1;
+unsigned char icmp_id = 1;
+unsigned char icmp_seq = 1;
 
 
 //*****************************************************************************

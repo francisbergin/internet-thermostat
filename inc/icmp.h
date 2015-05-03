@@ -1,3 +1,5 @@
+// Copyright (C) 2015 Francis Bergin
+
 #ifndef ICMP_H_
 #define ICMP_H_
 
@@ -16,11 +18,7 @@
 #define ICMP_SEQUENCE_L_P		0x29
 #define ICMP_DATA_P				0x2A
 
-//*****************************************************************************
-//
-// Prototype function
-//
-//*****************************************************************************
+// function prototypes
 extern BYTE icmp_send_reply ( BYTE *rxtx_buffer, BYTE *dest_mac, BYTE *dest_ip );
 extern void icmp_send_request ( BYTE *rxtx_buffer, BYTE *dest_mac, BYTE *dest_ip );
 extern BYTE icmp_ping ( BYTE *rxtx_buffer, BYTE *dest_mac, BYTE *dest_ip );

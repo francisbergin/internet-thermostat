@@ -1,11 +1,11 @@
+// Copyright (C) 2015 Francis Bergin
+
 #ifndef HTTP_H_
 #define HTTP_H_
 
-//*****************************************************************************
-//
-// Prototype function
-//
-//*****************************************************************************
+extern BYTE packet;
+
+// function prototypes
 extern WORD http_home( BYTE *rxtx_buffer );
 extern WORD http_home_2( BYTE *rxtx_buffer );
 
@@ -18,7 +18,5 @@ extern void http_webserver_process ( BYTE *rxtx_buffer, BYTE *dest_mac, BYTE *de
 //extern WORD http_put_request ( BYTE *rxtx_buffer );
 
 extern BYTE *print_decimal ( BYTE *ptr, BYTE digit, WORD dec );
-
-extern BYTE packet;
 
 #endif // HTTP_H_

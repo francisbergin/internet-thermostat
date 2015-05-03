@@ -1,3 +1,5 @@
+// Copyright (C) 2015 Francis Bergin
+
 #ifndef ENC28J60_H_
 #define ENC28J60_H_
 
@@ -253,7 +255,7 @@
 #define ENC28J60_PORT			PORTD
 #define ENC28J60_DDR			DDRD
 
-// functions
+// function prototypes
 extern BYTE enc28j60ReadOp(BYTE op, BYTE address);
 extern void enc28j60WriteOp(BYTE op, BYTE address, BYTE data);
 extern void enc28j60SetBank(BYTE address);

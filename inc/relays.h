@@ -1,8 +1,7 @@
+// Copyright (C) 2015 Francis Bergin
+
 #ifndef RELAYS_H_
 #define RELAYS_H_
-
-extern void control_relays (void);
-
 
 extern WORD relays_cnt0;
 
@@ -17,5 +16,8 @@ extern BYTE hvac_vent_flag;
 extern BYTE hvac_heat;
 extern BYTE hvac_ac;
 extern BYTE hvac_vent;
+
+// function prototypes
+extern void control_relays (void);
 
 #endif // RELAYS_H_
