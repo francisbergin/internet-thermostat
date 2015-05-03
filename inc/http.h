@@ -1,4 +1,5 @@
-
+#ifndef HTTP_H_
+#define HTTP_H_
 
 //*****************************************************************************
 //
@@ -16,8 +17,8 @@ extern BYTE http_get_ip ( BYTE *buf, BYTE *dest );
 extern void http_webserver_process ( BYTE *rxtx_buffer, BYTE *dest_mac, BYTE *dest_ip );
 //extern WORD http_put_request ( BYTE *rxtx_buffer );
 
-
 extern BYTE *print_decimal ( BYTE *ptr, BYTE digit, WORD dec );
 
-
 extern BYTE packet;
+
+#endif // HTTP_H_

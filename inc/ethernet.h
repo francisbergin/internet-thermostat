@@ -1,3 +1,5 @@
+#ifndef ETHERNET_H_
+#define ETHERNET_H_
 
 #define ETH_TYPE_ARP_V		0x0806
 #define ETH_TYPE_ARP_H_V	0x08
@@ -20,3 +22,5 @@
 //void eth_generate_packet ( ETH_HEADER eth_header );
 extern WORD software_checksum( BYTE *rxtx_buffer, WORD len, DWORD sum);
 extern void eth_generate_header ( BYTE *rxtx_buffer, WORD_BYTES type, BYTE *dest_mac );
+
+#endif // ETHERNET_H_

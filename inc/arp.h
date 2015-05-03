@@ -1,3 +1,5 @@
+#ifndef ARP_H_
+#define ARP_H_
 
 #define ARP_PACKET_LEN			28
 
@@ -38,3 +40,5 @@ extern void arp_send_request ( BYTE *rxtx_buffer, BYTE *dest_ip );
 extern void arp_send_reply ( BYTE *rxtx_buffer, BYTE *dest_mac );
 extern BYTE arp_packet_is_arp ( BYTE *rxtx_buffer, WORD_BYTES opcode );
 extern BYTE arp_who_is ( BYTE *rxtx_buffer, BYTE *dest_mac, BYTE *dest_ip );
+
+#endif // ARP_H_

@@ -1,4 +1,5 @@
-
+#ifndef RELAYS_H_
+#define RELAYS_H_
 
 extern void control_relays (void);
 
@@ -13,6 +14,8 @@ extern BYTE hvac_heat_flag;
 extern BYTE hvac_ac_flag;
 extern BYTE hvac_vent_flag;
 
-extern BYTE hvac_heat; 
+extern BYTE hvac_heat;
 extern BYTE hvac_ac;
 extern BYTE hvac_vent;
+
+#endif // RELAYS_H_

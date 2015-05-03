@@ -1,3 +1,5 @@
+#ifndef INCLUDES_H_
+#define INCLUDES_H_
 
 #include <avr/io.h>
 #include <stdio.h>
@@ -62,3 +64,5 @@ extern BYTE ee_server_ip[];
 //
 //*****************************************************************************
 //extern void initial_system( void );
+
+#endif // INCLUDES_H_

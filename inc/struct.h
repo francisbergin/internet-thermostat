@@ -1,3 +1,5 @@
+#ifndef STRUCT_H_
+#define STRUCT_H_
 
 //typedef enum _BOOL { false = 0, true } bool;
 typedef unsigned char	BYTE;				// 8-bit
@@ -173,13 +175,13 @@ typedef struct _TCP_HEADER
 	WORD_BYTES	dest_port;
 	DWORD_BYTES	sequence_number;
 	DWORD_BYTES	seqack_number;
-	
+
 	union
 	{
 		struct
 		{
 			unsigned char reserved:4;
-			unsigned char value:4;			
+			unsigned char value:4;
 		}nibble;
 		unsigned char byte;
 	}data_offset;
@@ -187,14 +189,14 @@ typedef struct _TCP_HEADER
 	union
 	{
 		struct
-		{			
+		{
 			unsigned char FIN:1;
 			unsigned char SYN:1;
 			unsigned char RST:1;
 			unsigned char PSH:1;
 			unsigned char ACK:1;
 			unsigned char URG:1;
-			unsigned char reserved:2;			
+			unsigned char reserved:2;
 		} bits;
 		unsigned char byte;
 	} flags;
@@ -235,3 +237,5 @@ union flag2
 		unsigned char unuse:7;
 	}bits;
 }flag2;
+
+#endif // STRUCT_H_

@@ -1,6 +1,5 @@
-
-//#ifndef ENC28J60_H
-#define ENC28J60_H
+#ifndef ENC28J60_H_
+#define ENC28J60_H_
 
 // ENC28J60 Control Registers
 // Control register definitions are a combination of address,
@@ -269,3 +268,4 @@ extern BYTE enc28j60_mac_is_linked(void);
 extern WORD enc28j60_tx_checksum( WORD offset, WORD len );
 extern WORD enc28j60_packet_receive ( BYTE *rxtx_buffer, WORD max_length );
 
+#endif // ENC28J60_H_

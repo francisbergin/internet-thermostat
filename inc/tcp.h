@@ -1,3 +1,5 @@
+#ifndef TCP_H_
+#define TCP_H_
 
 #define TCP_HEADER_LEN		20
 #define TCP_OPTION_LEN		4
@@ -50,3 +52,5 @@ extern void tcp_send_packet (
 	WORD dlength,
 	BYTE *dest_mac,
 	BYTE *dest_ip );
+
+#endif // TCP_H_

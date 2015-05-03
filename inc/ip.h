@@ -1,3 +1,5 @@
+#ifndef IP_H_
+#define IP_H_
 
 #define IP_HEADER_LEN		20
 
@@ -34,3 +36,5 @@
 
 extern BYTE ip_packet_is_ip ( BYTE *rxtx_buffer );
 extern void ip_generate_header ( BYTE *rxtx_buffer, WORD_BYTES total_length, BYTE protocol, BYTE *dest_ip );
+
+#endif // IP_H_

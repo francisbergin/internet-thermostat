@@ -1,3 +1,5 @@
+#ifndef ICMP_H_
+#define ICMP_H_
 
 #define ICMP_TYPE_ECHOREPLY_V 	0
 #define ICMP_TYPE_ECHOREQUEST_V 8
@@ -22,3 +24,5 @@
 extern BYTE icmp_send_reply ( BYTE *rxtx_buffer, BYTE *dest_mac, BYTE *dest_ip );
 extern void icmp_send_request ( BYTE *rxtx_buffer, BYTE *dest_mac, BYTE *dest_ip );
 extern BYTE icmp_ping ( BYTE *rxtx_buffer, BYTE *dest_mac, BYTE *dest_ip );
+
+#endif // ICMP_H_
