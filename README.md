@@ -4,11 +4,11 @@
 
 This is a final year project for the Electronics Engineering Technology program at Dawson College in Montreal, Qc.
 
-![internet-thermostat board](https://raw.githubusercontent.com/fbergin/internet-thermostat/master/doc/board.jpg)
+![internet-thermostat board](doc/board.jpg)
 
-![internet-thermostat home](https://raw.githubusercontent.com/fbergin/internet-thermostat/master/doc/home.png)
+![internet-thermostat home](doc/home.png)
 
-![internet-thermostat settings](https://raw.githubusercontent.com/fbergin/internet-thermostat/master/doc/settings.png)
+![internet-thermostat settings](doc/settings.png)
 
 ## components
 
