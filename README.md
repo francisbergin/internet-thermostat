@@ -6,7 +6,7 @@ This is a final year project for the Electronics Engineering Technology program 
 
 ![internet-thermostat board](doc/board.jpg)
 
-![internet-thermostat interface](doc/interface.png)
+![internet-thermostat interface](doc/interface.jpg)
 
 ## components
 
